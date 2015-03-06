@@ -1,0 +1,7 @@
+---
+# handlers file for nfs
+
+#- name: Restart NFS
+#  service: "name={{ item }} state=restarted"
+#  with_items:
+#    - "{{ nfs_service }}"	

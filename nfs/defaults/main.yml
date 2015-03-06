@@ -1,0 +1,10 @@
+---
+# defaults file for nfs
+
+nfs_paths: 
+ - "/primary"
+ - "/secondary"
+
+nfs_exports: "*(rw,sync,no_subtree_check,no_root_squash)"
+
+

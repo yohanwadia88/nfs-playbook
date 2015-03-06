@@ -1,0 +1,30 @@
+---
+# tasks file for nfs
+
+- name: Include OS-specific variables
+  include_vars: "{{ ansible_os_family }}.yml"
+
+- include: setup-RedHat.yml
+  when: ansible_os_family == 'RedHat'
+
+- include: setup-Debian.yml
+  when: ansible_os_family == 'Debian'
+
+- name: Create new NFS directories
+  file: path="{{ item }}" state=directory
+  with_items:
+    - "{{ nfs_paths }}"
+
+- name: Copy exports file
+  template:
+    src: exports.j2
+    dest: /etc/exports
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Ensure rpcbind and nfs are running
+  service: "name={{ item }} state=started enabled=yes"
+  with_items:
+    - "{{ nfs_service }}"
+  when: nfs_exports|length
