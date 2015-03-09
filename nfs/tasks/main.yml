@@ -27,4 +27,7 @@
   service: "name={{ item }} state=started enabled=yes"
   with_items:
     - "{{ nfs_service }}"
-  when: nfs_exports|length
+
+- name: Export all entries from the exports file
+  command: "exportfs -a"
+
